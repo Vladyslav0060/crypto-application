@@ -11,12 +11,12 @@ const CoinList: FC = () => {
     request();
     let timer = setInterval(() => {
       request();
-    }, 20000);
+    }, 120000);
     return () => clearInterval(timer);
   }, []);
   const request = async () => {
     const response = await axios.get(
-      "https://cryptopia-backend.herokuapp.com/coin/assets"
+      process.env[`REACT_APP_ASSETS_${process.env.REACT_APP_NODE_ENV}`] || ""
     );
     setFetchedData(response.data);
   };

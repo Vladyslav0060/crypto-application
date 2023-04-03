@@ -26,11 +26,15 @@ const ContactMe: FC<Props> = (props: Props) => {
     });
   };
   const sendMessage = (values: any) => {
-    axios.post("https://cryptopia-backend.herokuapp.com/mailer/text-mail", {
-      to: values["email"],
-      subject: values["name"],
-      text: values["message"],
-    });
+    axios.post(
+      process.env[`REACT_APP_TEXT_MAIL_${process.env.REACT_APP_NODE_ENV}`] ||
+        "",
+      {
+        to: values["email"],
+        subject: values["name"],
+        text: values["message"],
+      }
+    );
     return true;
   };
   const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });

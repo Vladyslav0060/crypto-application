@@ -1,9 +1,8 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Chart from "../components/pages/Chart";
 import CoinInfo from "../components/pages/CoinList/CoinInfo";
 import CoinList from "../components/pages/CoinList/CoinList";
 import Exchange from "../components/pages/Exchange/Exchange";
-import HomePage from "../components/pages/HomePage";
 import Login from "../components/pages/Login";
 import Register from "../components/pages/Register";
 

@@ -22,7 +22,9 @@ const Exchange: FC = () => {
 
   const request = async () => {
     const result = await axios(
-      "https://cryptopia-backend.herokuapp.com/coin/assetsExchange"
+      process.env[
+        `REACT_APP_ASSETS_EXCHANGE_${process.env.REACT_APP_NODE_ENV}`
+      ] || ""
     );
     if (result.status === 200) setIsLoading(false);
     setResponse(result.data);
