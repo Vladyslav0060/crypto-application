@@ -22,7 +22,9 @@ const Register: FC = () => {
     event.preventDefault();
     try {
       const response: any = await axios.post(
-        "https://cryptopia-backend.herokuapp.com/auth/registration",
+        process.env[
+          `REACT_APP_REGISTRATION_${process.env.REACT_APP_NODE_ENV}`
+        ] || "",
         {
           username: username,
           password: password,
