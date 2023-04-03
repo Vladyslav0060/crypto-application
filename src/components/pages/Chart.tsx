@@ -48,7 +48,7 @@ const Chart: FC = () => {
   const [period, setPeriod] = useState("h1");
   const [symbol, setSymbol] = useState("bitcoin");
   const [isSymbolDropDown, setIsSymbolDropDown]: any = useState(false);
-  const [symbolsList, setSymbolsList]: any = useState([]);
+  const [symbolsList, setSymbolsList]: any = useState();
   const [isLoading, setIsLoading] = useState(true);
   const onPeriodsClick = (e: any) => {
     setIsSymbolDropDown(false);
@@ -62,7 +62,7 @@ const Chart: FC = () => {
   const getSymbols = async () => {
     const res: any = await axios({
       method: "get",
-      url: "https://cryptopia-backend.herokuapp.com/coin/symbols",
+      url: process.env[`REACT_APP_SYMBOLS_${process.env.REACT_APP_NODE_ENV}`],
     });
 
     setSymbolsList(res.data);
@@ -119,16 +119,16 @@ const Chart: FC = () => {
   );
   useEffect(() => {
     setIsLoading(true);
-    fetchData();
-  }, [period, symbol]);
+    symbolsList && fetchData();
+  }, [period, symbol, symbolsList]);
   const fetchData = async () => {
     const res: any = await axios({
       method: "get",
-      url: "https://cryptopia-backend.herokuapp.com/coin/ohlc",
+      url: process.env[`REACT_APP_OHLC_${process.env.REACT_APP_NODE_ENV}`],
       params: {
         interval: period,
-        baseId: symbol,
-        quoteId: "tether",
+        fsym: symbolsList.find((item: any) => item.id === symbol)?.symbol,
+        tsym: "usdt",
       },
     });
     const { ohlcData, volumesData } = res.data;
@@ -157,8 +157,6 @@ const Chart: FC = () => {
         bottom: 0,
       },
     });
-    // const candlestickSeries = chart.addCandlestickSeries();
-    fetchData();
   }, []);
   useEffect(() => {
     resizeObserver.current = new ResizeObserver((entries) => {

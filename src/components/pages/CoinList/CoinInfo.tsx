@@ -11,7 +11,8 @@ const CoinInfo = () => {
   const [data, setData]: any = useState();
   const fetchData = async () => {
     const response = await axios.get(
-      "https://cryptopia-backend.herokuapp.com/coin/coin-details",
+      process.env[`REACT_APP_COIN_DETAILS_${process.env.REACT_APP_NODE_ENV}`] ||
+        "",
       { headers: { id: id } }
     );
     setData(response.data);
